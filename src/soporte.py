@@ -1,0 +1,103 @@
+import sys
+sys.path.append("../")
+import src.biblioteca as bb
+
+def dia_subcat(categoria):
+    """Depurador de subcategorias DIA
+
+    Args:
+        categoria (string): Categorias en strings
+
+    Returns:
+        string: Subcategoria
+    """
+    frag = categoria.split("_")
+    dic_dia = {
+    "congelados": bb.dia_con, "bebe": bb.dia_be, "frescos": bb.dia_fre, "al": bb.dia_fre, "perfumeria": bb.dia_per, 
+    "lacteos": bb.dia_lac, "desayuno": bb.dia_des, "drogueria": bb.dia_dro, "charcuteria" : bb.dia_charc, 
+    "dulces": bb.dia_des, "alimentacion": bb.dia_alim, "bodega": bb.dia_bode}
+    
+    if frag[0] in dic_dia:
+        for k, v in dic_dia[frag[0]].items():
+            if frag[-1] in v:
+                return k
+    elif frag[0] == "despensa":
+        if frag[1] in bb.listadia1:
+            return frag[1]
+        elif frag[-2] == "bebidas":
+            return "leche"
+        elif frag[-1] in bb.listadia2:
+            return bb.dia_cuid[frag[-1]]
+        else:
+            return frag[-1]
+    elif frag[0] == "cuidado":
+        if frag[-1] in bb.dia_cuid:
+            return bb.dia_cuid[frag[-1]]
+        else:
+            return frag[-1]
+    elif frag[0] == "bebidas":
+        if frag[1] == "vinos":
+            return ("_".join([frag[1], frag[2]]))
+        else:
+            for k, v in bb.dia_bebis.items():
+                if frag[-1] in v:
+                    return k
+    elif frag[0] == "mascotas":
+        if frag[1] in ["perros", "gatos"]:
+            return frag[1] 
+        elif frag[1] in ["resto", "roedores", "otros", "otro"]:
+            return "otros"
+        elif frag[1] == "accesorios":
+            return frag[1]
+    elif frag[0] in ["pizza", "platos"]:
+        return "precocinados"
+    elif frag[0] == "productos":
+        return "pan"
+    else: 
+        "desconocido"
+        
+def mer_subcat(categoria):
+    """Depurador de categorias MERCADONA
+
+    Args:
+        categoria (string): Categoria en string
+
+    Returns:
+        string: Subcategoria
+    """
+    frag = categoria.split("_")
+    dic_merc1 = {"congelados": bb.mer_con, "charcuteria": bb.mer_charc}
+    dic_merc2 = {"cuidado": bb.mer_cui, "huevos": bb.mer_hue, "azucar": bb.mer_azuc, "bodega": bb.mer_bod, "fruta": bb.mer_frut,
+                 "limpieza": bb.mer_lim, "cereales": bb.mer_cer, "arroz": bb.mer_arr, "bebe": bb.mer_bebe, "conservas": bb.mer_cons,
+                 "mascotas": bb.mer_masc, "carne": bb.mer_car, "marisco": bb.mer_mari, "aceite": bb.mer_acei, "agua": bb.mer_agua,
+                 "cacao": bb.mer_cac, "postres": bb.mer_post}
+    if frag[0] in bb.mer_cuid:
+        return bb.mer_cuid[frag[0]]
+    elif frag[0] in ["congelados", "charcuteria"]:
+        for k, v in dic_merc1[frag[0]].items():
+            if frag[-1] in v:
+                return k
+    elif frag[0] == "panaderia":
+        if frag[-1] == "horno":
+            return frag[-3]
+        else:
+            for k, v in bb.mer_pan.items():
+                if frag[-1] in v:
+                    return k
+    else:
+        for k, v in dic_merc2[frag[0]].items():
+            if frag[-1] in v:
+                return k
+
+def category(categoria):
+    """Generador de categorias a partir de subcategorias
+
+    Args:
+        categoria (string): Subcategorias ya limpias
+
+    Returns:
+        string: Categoria mayor que engloba las subcategorias
+    """
+    for k, v in bb.diccategoria.items():
+        if categoria in v:
+            return k
