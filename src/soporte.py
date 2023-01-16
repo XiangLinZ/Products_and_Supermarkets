@@ -1,6 +1,8 @@
 import sys
 sys.path.append("../")
 import src.biblioteca as bb
+import numpy as np
+
 
 def dia_subcat(categoria):
     """Depurador de subcategorias DIA
@@ -101,3 +103,16 @@ def category(categoria):
     for k, v in bb.diccategoria.items():
         if categoria in v:
             return k
+
+def sleep_(n1 = 4, n2 = 8, n3 = 2):
+    """Generador de números aleatorios, adecuados para sleeps para scrapear
+
+    Args:
+        n1 (int, optional): el número mínimo que puede devolver. Defaults to 4.
+        n2 (int, optional): el número máximo que puede devolver. Defaults to 8.
+        n3 (int, optional): el número de decimales que devuelve. Defaults to 2.
+
+    Returns:
+        int: int aleatorio entre el primer número y el segundo con el tercer número de decimales
+    """
+    return round(np.random.randint(n1,n2) + np.random.rand(1)[0], n3)
