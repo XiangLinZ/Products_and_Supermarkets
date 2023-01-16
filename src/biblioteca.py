@@ -74,7 +74,7 @@ dia_lac = {
 dia_des = {
     "chocolate": ["chocolatinas", "chocolate", "tabletas", "adviento"],
     "cacao": ["cacao", "taza", "instantaneo"],
-    "dulces": ["golosinas", "chicles", "duros", "turrones", "mazapanes", "polvorones", "navidenos"],
+    "dulces": ["golosinas", "chicles", "duros", "turrones", "mazapanes", "polvorones", "navidenos", "navidad"],
     "cafe": ["mezcla", "natural", "capsulas", "descafeinado", "grano", "otros"],
     "bolleria": ["productos", "donuts", "magdalenas", "napolitanas", "bizcochos", "campana", "reyes", "panettones", "rosquillas"],
     "infusiones": ["poleo", "tila", "terapeuticos", "te", "manzanilla", "infusiones", "terapeuticas"],

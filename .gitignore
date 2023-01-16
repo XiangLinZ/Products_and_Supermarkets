@@ -128,4 +128,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 *.rar
+*.csv
 data/datamarket_productos_de_supermercados.csv
