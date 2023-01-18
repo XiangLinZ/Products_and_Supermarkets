@@ -3,6 +3,8 @@ sys.path.append("../")
 import src.biblioteca as bb
 import numpy as np
 from fuzzywuzzy import process, fuzz
+sys.path.append("../")
+import src.soporte as sp
 
 def dia_subcat2(categoria):
     frag = categoria.split("_")
@@ -147,7 +149,7 @@ def limpiar_runit(col2):
 
 def refinar_aceite(col1):
 
-    generos_posibles = ["aceite", "sal", "vinagre", "aliños"]
+    generos_posibles = ["aceites", "sal", "vinagre", "aliños"]
     ratio_mayor = 0
     for posibilidad in generos_posibles:
         ratio = fuzz.ratio(col1, generos_posibles)
@@ -156,7 +158,12 @@ def refinar_aceite(col1):
             subgenero = posibilidad
         else:
             pass
-    return subgenero
+    if subgenero == "aliños":
+        return "vinagre"
+    elif subgenero == "sal":
+        return "especias"
+    else: 
+        return subgenero
 
 
 def semejanza(lista1, lista2):
