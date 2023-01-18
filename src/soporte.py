@@ -2,7 +2,11 @@ import sys
 sys.path.append("../")
 import src.biblioteca as bb
 import numpy as np
+from fuzzywuzzy import process, fuzz
 
+def dia_subcat2(categoria):
+    frag = categoria.split("_")
+    return frag[0]
 
 def dia_subcat(categoria):
     """Depurador de subcategorias DIA
@@ -116,3 +120,51 @@ def sleep_(n1 = 4, n2 = 8, n3 = 2):
         int: int aleatorio entre el primer número y el segundo con el tercer número de decimales
     """
     return round(np.random.randint(n1,n2) + np.random.rand(1)[0], n3)
+
+def limpiar_reference(col1, col2):
+
+    if col2 == "docena":
+        return (col1 / 12)
+    if col2 == "100ml":
+        return (col1 * 10)
+    if col2 == "100g":
+        return (col1 * 10)
+    if col2 == "g":
+        return (col1 * 100)
+    else:
+        return col1
+
+def limpiar_runit(col2):
+
+    if col2 == "docena":
+        return "ud"
+    if col2 == "100ml":
+        return "l"
+    if col2 in ["100g", "g"]:
+        return "kg"
+    else:
+        return col2
+
+def refinar_aceite(col1):
+
+    generos_posibles = ["aceite", "sal", "vinagre", "aliños"]
+    ratio_mayor = 0
+    for posibilidad in generos_posibles:
+        ratio = fuzz.ratio(col1, generos_posibles)
+        if ratio > ratio_mayor:
+            ratio_mayor = ratio
+            subgenero = posibilidad
+        else:
+            pass
+    return subgenero
+
+
+def semejanza(lista1, lista2):
+    lista = []
+    for (a,b) in zip(lista1, lista2):
+        porcentaje = fuzz.ratio(a,b)
+        if porcentaje > 45:
+            lista.append(True)
+        else:
+            lista.append(False)
+    return lista

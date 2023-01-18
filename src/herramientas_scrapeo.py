@@ -17,18 +17,15 @@ from bs4 import BeautifulSoup
 import sys
 sys.path.append("../")
 import src.biblioteca as bb
-import numpy as np
-import sys
 sys.path.append("../")
 import src.herramientas_scrapeo as hs
-import sys
 sys.path.append("../")
 import src.soporte as sp
 
 
 
 
-def merc_subcat(numero_cate, diccionario):
+def merc_subcat(numero_cate, diccionario, lista_errores):
     """scrapeo de una sola categoria de mercadona de hoy
 
     Args:
@@ -39,22 +36,17 @@ def merc_subcat(numero_cate, diccionario):
     today = date.today()
     url = f"https://tienda.mercadona.es/categories/{numero_cate}"
     driver.get(url)
-    sleep(1)
     try:
+        driver.implicitly_wait(5)
         driver.find_element("css selector", '#root > div.cookie-banner > div > div > button.ui-button.ui-button--small.ui-button--primary.ui-button--positive').click()
         sleep(2)
         driver.find_element("css selector", "#root > div.ui-focus-trap > div > div:nth-child(2) > div > form > div > input").click()
         driver.find_element("css selector", "#root > div.ui-focus-trap > div > div:nth-child(2) > div > form > div > input").send_keys("28018",Keys.ENTER)
-        sleep(2)
     except:
         driver.implicitly_wait(5)
-        driver.find_elemeny("css selector", "#modal-info > div > div > div > button").click()
-        sleep(2)
-        driver.find_element("css selector", '#root > div.cookie-banner > div > div > button.ui-button.ui-button--small.ui-button--primary.ui-button--positive').click()
-        sleep(2)
-        driver.find_element("css selector", "#root > div.ui-focus-trap > div > div:nth-child(2) > div > form > div > input").click()
-        driver.find_element("css selector", "#root > div.ui-focus-trap > div > div:nth-child(2) > div > form > div > input").send_keys("28018",Keys.ENTER)
-        sleep(2)
+        driver.find_element("css selector", "#modal-info > div > div > div > button").click()
+        lista_errores.add(numero_cate)
+    sleep(2)
     for n2 in range(2, 10):
         try:
             for n in range(1, 50):
@@ -64,45 +56,53 @@ def merc_subcat(numero_cate, diccionario):
                     driver.find_element("css selector", rutaselector).click()
                     driver.implicitly_wait(3)
                     diccionario["name"].append(driver.find_element("css selector", "#root > div.ui-focus-trap > div > div:nth-child(2) > div > div.private-product-detail > div.private-product-detail__content > div.private-product-detail__right > h1").text)
-                    diccionario["category"].append((driver.find_element("css selector", "#root > div.ui-focus-trap > div > div:nth-child(2) > div > div.private-product-detail > div.private-product-detail__breadcrumb").text).replace(" >","").replace(" ", "_"))
-                    precio_chungo = driver.find_element("css selector", "#root > div.ui-focus-trap > div > div:nth-child(2) > div > div.private-product-detail > div.private-product-detail__content > div.private-product-detail__right > div.product-price").text
-                    diccionario["price"].append(precio_chungo.split(" €")[0])
-                    diccionario["reference_price"].append((driver.find_element("css selector", "#root > div.ui-focus-trap > div > div:nth-child(2) > div > div.private-product-detail > div.private-product-detail__content > div.private-product-detail__right > div.product-format.product-format__size").text).split("| ")[1].split(" €")[0])
-                    diccionario["reference_unit"].append((driver.find_element("css selector", "#root > div.ui-focus-trap > div > div:nth-child(2) > div > div.private-product-detail > div.private-product-detail__content > div.private-product-detail__right > div.product-format.product-format__size").text).split("/")[1])
+                    try:
+                        diccionario["category"].append((driver.find_element("css selector", "#root > div.ui-focus-trap > div > div:nth-child(2) > div > div.private-product-detail > div.private-product-detail__breadcrumb").text).replace(" >","").replace(" ", "_"))
+                    except:
+                        diccionario["category"].append(np.nan)
+                    try:    
+                        precio_chungo = driver.find_element("css selector", "#root > div.ui-focus-trap > div > div:nth-child(2) > div > div.private-product-detail > div.private-product-detail__content > div.private-product-detail__right > div.product-price").text
+                        diccionario["price"].append(precio_chungo.split(" €")[0])
+                    except:
+                        diccionario["price"].append(np.nan)
+                    try:    
+                        diccionario["reference_price"].append((driver.find_element("css selector", "#root > div.ui-focus-trap > div > div:nth-child(2) > div > div.private-product-detail > div.private-product-detail__content > div.private-product-detail__right > div.product-format.product-format__size").text).split("| ")[1].split(" €")[0])
+                    except:
+                        diccionario["reference_price"].append(np.nan)
+                    try:    
+                        diccionario["reference_unit"].append((driver.find_element("css selector", "#root > div.ui-focus-trap > div > div:nth-child(2) > div > div.private-product-detail > div.private-product-detail__content > div.private-product-detail__right > div.product-format.product-format__size").text).split("/")[1])
+                    except:
+                        diccionario["reference_unit"].append(np.nan)
+                    diccionario["category_id"].append(numero_cate)
                     diccionario["insert_date"].append(today)
                     driver.implicitly_wait(5)
                     driver.find_element("css selector", '#root > div.ui-focus-trap > div > div:nth-child(2) > div > div.modal-content__header > button').click()
                 except:
                     try:
                         driver.implicitly_wait(5)
-                        driver.find_elemeny("css selector", "#modal-info > div > div > div > button").click()
-                        driver.implicitly_wait(3)
-                        driver.find_element("css selector", rutaselector).click()
-                        driver.implicitly_wait(3)
-                        diccionario["name"].append(driver.find_element("css selector", "#root > div.ui-focus-trap > div > div:nth-child(2) > div > div.private-product-detail > div.private-product-detail__content > div.private-product-detail__right > h1").text)
-                        diccionario["category"].append((driver.find_element("css selector", "#root > div.ui-focus-trap > div > div:nth-child(2) > div > div.private-product-detail > div.private-product-detail__breadcrumb").text).replace(" >","").replace(" ", "_"))
-                        precio_chungo = driver.find_element("css selector", "#root > div.ui-focus-trap > div > div:nth-child(2) > div > div.private-product-detail > div.private-product-detail__content > div.private-product-detail__right > div.product-price").text
-                        diccionario["price"].append(precio_chungo.split(" €")[0])
-                        diccionario["reference_price"].append((driver.find_element("css selector", "#root > div.ui-focus-trap > div > div:nth-child(2) > div > div.private-product-detail > div.private-product-detail__content > div.private-product-detail__right > div.product-format.product-format__size").text).split("| ")[1].split(" €")[0])
-                        diccionario["reference_unit"].append((driver.find_element("css selector", "#root > div.ui-focus-trap > div > div:nth-child(2) > div > div.private-product-detail > div.private-product-detail__content > div.private-product-detail__right > div.product-format.product-format__size").text).split("/")[1])
-                        diccionario["insert_date"].append(today)
-                        driver.implicitly_wait(5)
-                        driver.find_element("css selector", '#root > div.ui-focus-trap > div > div:nth-child(2) > div > div.modal-content__header > button').click()
+                        driver.find_element("css selector", "#modal-info > div > div > div > button").click()
+                        lista_errores.append(numero_cate)
+                        break
                     except:
                         break
         except:
-            break
+            try:
+                driver.implicitly_wait(5)
+                driver.find_element("css selector", "#modal-info > div > div > div > button").click()
+                lista_errores.append(numero_cate)
+                break
+            except:
+                break
 
-def scrap_mercadona():
+def scrap_mercadona(lista_recorrer, dic, lista_errores):
     """Scrapea todos los productos de mercadona de hoy
 
     Returns:
         dic: diccionario con estructura ideal para pasar a df
     """
-    productos_mercadona = {"name": [], "category": [], "price": [], "reference_price": [], "reference_unit": [], "insert_date": []}
-    for categ in bb.listacategorias_merc:
-        hs.merc_subcat(categ, productos_mercadona)
-    return productos_mercadona
+    for categ in lista_recorrer:
+        hs.merc_subcat(categ, dic, lista_errores)
+  
 
 def scrap_dia():
     """Función que scrapea todos los productos del Dia de hoy
@@ -134,7 +134,7 @@ def scrap_dia():
                     except:
                         productos_dia["name"].append(np.nan)
                     try:
-                        productos_dia["category"].append(producto.find("a").get("href").split("/compra-online/")[1].split("/p")[0].replace("/", "-").replace("-","_"))
+                        productos_dia["category"].append(producto.find("a").get("href").split("/compra-online/")[1].split("/p/")[0].replace("/", "-").replace("-","_"))
                     except:
                         productos_dia["category"].append(np.nan)
                     try:

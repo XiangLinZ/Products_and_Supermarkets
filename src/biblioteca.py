@@ -7,6 +7,7 @@ listacategorias_merc = [27, 28, 29, 31, 32, 33, 34, 36, 37, 38, 40, 42, 43, 44, 
                 232, 233, 234, 235, 237, 238, 239, 241, 243, 244, 782, 789, 884]
 categoria_n_dia = ["dulces-de-navidad", "platos-preparados", "frescos", "despensa", "bebidas", "bodega", "congelados", "cuidado-personal", "bebe", "cuidado-del-hogar", "mascotas"]
 
+productos_mercadona_estructura = {"name": [], "category": [], "price": [], "reference_price": [], "reference_unit": [], "insert_date": [], "category_id":[]}
 dia_cuid = {
     "sexual" : "intimo", "alimentos" : "cocina", "afeitado" : "depilacion", "papel": "hogar",
     "ambientadores" : "ambientadores_insecticidas", "insecticidas" : "ambientadores_insecticidas",
