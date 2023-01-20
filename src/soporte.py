@@ -126,7 +126,7 @@ def sleep_(n1 = 4, n2 = 8, n3 = 2):
 def limpiar_reference(col1, col2):
 
     if col2 == "docena":
-        return (col1 / 12)
+        return round((col1 / 12), 2)
     if col2 == "100ml":
         return (col1 * 10)
     if col2 == "100g":
@@ -151,27 +151,20 @@ def refinar_aceite(col1):
 
     generos_posibles = ["aceites", "sal", "vinagre", "aliños"]
     ratio_mayor = 0
-    for posibilidad in generos_posibles:
-        ratio = fuzz.ratio(col1, generos_posibles)
-        if ratio > ratio_mayor:
-            ratio_mayor = ratio
-            subgenero = posibilidad
-        else:
-            pass
-    if subgenero == "aliños":
-        return "vinagre"
-    elif subgenero == "sal":
-        return "especias"
-    else: 
-        return subgenero
-
-
-def semejanza(lista1, lista2):
-    lista = []
-    for (a,b) in zip(lista1, lista2):
-        porcentaje = fuzz.ratio(a,b)
-        if porcentaje > 45:
-            lista.append(True)
-        else:
-            lista.append(False)
-    return lista
+    if col1 == "raro":
+        for posibilidad in generos_posibles:
+            ratio = fuzz.ratio(col1, posibilidad)
+            if ratio > ratio_mayor:
+                ratio_mayor = ratio
+                subgenero = posibilidad
+            else:
+                pass
+        if subgenero == "aliños":
+            return "vinagre"
+        elif subgenero == "sal":
+            return "especias"
+        else: 
+            return subgenero
+    else:
+        return col1
+    

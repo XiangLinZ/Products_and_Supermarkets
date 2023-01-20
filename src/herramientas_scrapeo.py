@@ -39,7 +39,7 @@ def merc_subcat(numero_cate, diccionario, lista_errores):
     try:
         driver.implicitly_wait(5)
         driver.find_element("css selector", '#root > div.cookie-banner > div > div > button.ui-button.ui-button--small.ui-button--primary.ui-button--positive').click()
-        sleep(2)
+        sleep(5)
         driver.find_element("css selector", "#root > div.ui-focus-trap > div > div:nth-child(2) > div > form > div > input").click()
         driver.find_element("css selector", "#root > div.ui-focus-trap > div > div:nth-child(2) > div > form > div > input").send_keys("28018",Keys.ENTER)
     except:
@@ -52,6 +52,7 @@ def merc_subcat(numero_cate, diccionario, lista_errores):
             for n in range(1, 50):
                 rutaselector = f"#root > div.grid-layout > div.grid-layout__main-container > div.grid-layout__content > div > div > section:nth-child({n2}) > div > div:nth-child({n}) > button"
                 try:
+                    sleep(2)
                     driver.implicitly_wait(3)
                     driver.find_element("css selector", rutaselector).click()
                     driver.implicitly_wait(3)
@@ -60,13 +61,15 @@ def merc_subcat(numero_cate, diccionario, lista_errores):
                         diccionario["category"].append((driver.find_element("css selector", "#root > div.ui-focus-trap > div > div:nth-child(2) > div > div.private-product-detail > div.private-product-detail__breadcrumb").text).replace(" >","").replace(" ", "_"))
                     except:
                         diccionario["category"].append(np.nan)
+                        lista_errores.add(numero_cate)
+                        sleep(60)
                     try:    
                         precio_chungo = driver.find_element("css selector", "#root > div.ui-focus-trap > div > div:nth-child(2) > div > div.private-product-detail > div.private-product-detail__content > div.private-product-detail__right > div.product-price").text
-                        diccionario["price"].append(precio_chungo.split(" €")[0])
+                        diccionario["price"].append(float(precio_chungo.split(" €")[0].replace(",",".")))
                     except:
                         diccionario["price"].append(np.nan)
                     try:    
-                        diccionario["reference_price"].append((driver.find_element("css selector", "#root > div.ui-focus-trap > div > div:nth-child(2) > div > div.private-product-detail > div.private-product-detail__content > div.private-product-detail__right > div.product-format.product-format__size").text).split("| ")[1].split(" €")[0])
+                        diccionario["reference_price"].append(float((driver.find_element("css selector", "#root > div.ui-focus-trap > div > div:nth-child(2) > div > div.private-product-detail > div.private-product-detail__content > div.private-product-detail__right > div.product-format.product-format__size").text).split("| ")[1].split(" €")[0]).replace(",","."))
                     except:
                         diccionario["reference_price"].append(np.nan)
                     try:    
@@ -75,6 +78,7 @@ def merc_subcat(numero_cate, diccionario, lista_errores):
                         diccionario["reference_unit"].append(np.nan)
                     diccionario["category_id"].append(numero_cate)
                     diccionario["insert_date"].append(today)
+                    sleep(2)
                     driver.implicitly_wait(5)
                     driver.find_element("css selector", '#root > div.ui-focus-trap > div > div:nth-child(2) > div > div.modal-content__header > button').click()
                 except:
@@ -82,6 +86,7 @@ def merc_subcat(numero_cate, diccionario, lista_errores):
                         driver.implicitly_wait(5)
                         driver.find_element("css selector", "#modal-info > div > div > div > button").click()
                         lista_errores.append(numero_cate)
+                        sleep(60)
                         break
                     except:
                         break
@@ -102,6 +107,7 @@ def scrap_mercadona(lista_recorrer, dic, lista_errores):
     """
     for categ in lista_recorrer:
         hs.merc_subcat(categ, dic, lista_errores)
+        sleep(10)
   
 
 def scrap_dia():
