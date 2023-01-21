@@ -166,7 +166,7 @@ mer_pan = {
     "molde": ["especialidades"],
     "rallado" : ["rallado"],
     "pan_tostado": ["picatostes"],
-    "reposteria": ["decoracion"]}
+    "reposteria": ["decoracion", "repostería"]}
 mer_cui = {
     "colonias": ["colonia", "desodorante"],
     "cabello": ["cabello", "mascarilla", "accesorios", "champu"],
@@ -252,7 +252,7 @@ mer_cac = {
     "infusiones": ["infusiones"],
     "cacao": ["taza"]}
 mer_post = {
-    "yogures": ["liquidos", "bifidus", "sabores", "desnatados", "griegos", "infantiles"],
+    "yogures": ["liquidos", "bifidus", "sabores", "desnatados", "griegos", "infantiles", "líquidos", "bífidus"],
     "postres": ["postres", "natillas", "soja"]}
 diccategoria = {
     "bebidas": ["isotonicas_energeticas", "refrescos", "agua", "zumos"],
