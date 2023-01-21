@@ -8,7 +8,6 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
 from fuzzywuzzy import process, fuzz
-import pickle
 import warnings
 warnings.filterwarnings('ignore')
 import requests
@@ -26,11 +25,12 @@ import src.soporte as sp
 
 
 def merc_subcat(numero_cate, diccionario, lista_errores):
-    """scrapeo de una sola categoria de mercadona de hoy
+    """ Scrap of one category from Mercadona
 
     Args:
-        numero_cate (int): el número asociado a la categoria que se quiere scrapear
-        diccionario (dic): diccionario donde se apendearán los datos scrapeados, son 6 keys necesarias
+        numero_cate (int): number ob the category that you want to scrap
+        diccionario (dic): dicctionary with the structure of the future dataframe
+        lista_errores (set): a set where where errors are added
     """
     driver = webdriver.Chrome("../src/chromedriver.exe")
     today = date.today()
@@ -100,10 +100,12 @@ def merc_subcat(numero_cate, diccionario, lista_errores):
                 break
 
 def scrap_mercadona(lista_recorrer, dic, lista_errores):
-    """Scrapea todos los productos de mercadona de hoy
+    """Scraps every category in Mercadona
 
-    Returns:
-        dic: diccionario con estructura ideal para pasar a df
+    Args:
+        lista_recorrer (list): list of categories that you want to scrap
+        dic (dic): diccionary with the structure of the future dataframe
+        lista_errores (set): set where errors are added
     """
     for categ in lista_recorrer:
         hs.merc_subcat(categ, dic, lista_errores)
@@ -111,10 +113,10 @@ def scrap_mercadona(lista_recorrer, dic, lista_errores):
   
 
 def scrap_dia():
-    """Función que scrapea todos los productos del Dia de hoy
+    """Scraps every product from the supermarket Dia
 
     Returns:
-        dic: Un diccionario con los nombres, categorias, precios y demás datos que los da en formato ideal para pasar a df
+        dic: dictionary with a structure to make a dataframe
     """
     productos_dia = {
         "name": [],
@@ -159,108 +161,3 @@ def scrap_dia():
             except:
                 pass
     return productos_dia
-
-
-# Prueba por categorias que ha fallado T_T
-"""
-def scrap_cat():
-
-    for catego in listacategorias.keys():
-        url = f"https://tienda.mercadona.es/categories/{catego}"
-        driver.get(url)
-        for minicat in range(listacategorias[catego]):
-            scrap_subcat()
-            if minicat == (listacategorias[catego] - 1):
-                print("categoria scrapeada al completo")
-            else:
-                driver.implicitly_wait(4)
-                driver.find_element("css selector", "#root > div.grid-layout > div.grid-layout__main-container > div.grid-layout__content > div > div > button").click()
-"""
-
-### Prueba 4 hacerlo en clase , no funciona la clase =D
-"""
-class Mercadona_scrap:
-
-    def __init__(self) -> None:
-        self.productos_mercadona = {
-            "name": [],
-            "category": [],
-            "price": [],
-            "reference_price": [],
-            "reference_unit": [],
-            "insert_date": []}
-        self.today = date.today()
-        self.listacategorias = {"112" : 4, "156" : 6, "135" : 3, "118": 3, "89" : 5, "216" : 4, "164" : 9, "86" : 5, "46" : 9, "78" : 3, "48" : 9, "147": 10, "122" : 6,
-                                "201" : 5, "192" : 12, "213" : 2, "27" : 3, "77" : 3, "226" : 14, "206" : 5, "32" : 6, "222" : 3, "65" : 9, "138" : 3, "105" : 9, "99" : 4}
-
-    def scrap_minicat(self):
-
-        sleep(1)
-        driver.find_element("css selector", '#root > div.cookie-banner > div > div > button.ui-button.ui-button--small.ui-button--primary.ui-button--positive').click()
-        sleep(2)
-        driver.find_element("css selector", "#root > div.ui-focus-trap > div > div:nth-child(2) > div > form > div > input").click()
-        driver.find_element("css selector", "#root > div.ui-focus-trap > div > div:nth-child(2) > div > form > div > input").send_keys("28018",Keys.ENTER)
-        sleep(2)
-        for n2 in range(2, 10):
-            try:
-                for n in range(1, 50):
-                    rutaselector = f"#root > div.grid-layout > div.grid-layout__main-container > div.grid-layout__content > div > div > section:nth-child({n2}) > div > div:nth-child({n}) > button"
-                    try:
-                        driver.implicitly_wait(3)
-                        driver.find_element("css selector", rutaselector).click()
-                        driver.implicitly_wait(3)
-                        productos_mercadona["name"].append(driver.find_element("css selector", "#root > div.ui-focus-trap > div > div:nth-child(2) > div > div.private-product-detail > div.private-product-detail__content > div.private-product-detail__right > h1").text)
-                        productos_mercadona["category"].append(driver.find_element("css selector", "#root > div.ui-focus-trap > div > div:nth-child(2) > div > div.private-product-detail > div.private-product-detail__breadcrumb").text)
-                        precio_chungo = driver.find_element("css selector", "#root > div.ui-focus-trap > div > div:nth-child(2) > div > div.private-product-detail > div.private-product-detail__content > div.private-product-detail__right > div.product-price").text
-                        productos_mercadona["price"].append(precio_chungo.split(" €/")[0])
-                        productos_mercadona["reference_price"].append(driver.find_element("css selector", "#root > div.ui-focus-trap > div > div:nth-child(2) > div > div.private-product-detail > div.private-product-detail__content > div.private-product-detail__right > div.product-format.product-format__size").text)
-                        productos_mercadona["reference_unit"].append(driver.find_element("css selector", "#root > div.ui-focus-trap > div > div:nth-child(2) > div > div.private-product-detail > div.private-product-detail__content > div.private-product-detail__right > div.product-format.product-format__size").text)
-                        productos_mercadona["insert_date"].append(self.today)
-                        driver.implicitly_wait(5)
-                        driver.find_element("css selector", '#root > div.ui-focus-trap > div > div:nth-child(2) > div > div.modal-content__header > button').click()
-                    except:
-                        break
-            except:
-                break
-    
-    def scrap_subcat(self, categoria):
-
-        for minicats in range(self.listacategorias[categoria]):
-            opciones= Options()
-            opciones.add_experimental_option('excludeSwitches', ['enable-automation'])#para ocultarme como robot
-            opciones.add_experimental_option('useAutomationExtension', False)
-            opciones.add_argument('--start-maximized') #empezar maximizado
-            opciones.add_argument('user.data-dir=selenium') #guarda las cookies
-            opciones.add_argument('--incognito')#incognito window
-            driver = webdriver.Chrome("../src/chromedriver.exe")
-            url = f"https://tienda.mercadona.es/categories/{categoria}"
-            driver.get(url)
-            self.scrap_minicat()
-            if minicats == (self.listacategorias[categoria] - 1):
-                print("categoria scrapeada al completo")
-            else:
-                driver.implicitly_wait(4)
-                driver.find_element("css selector", "#root > div.grid-layout > div.grid-layout__main-container > div.grid-layout__content > div > div > button").click()
-
-    def limpiar_diccionario(self):
-
-        for atributo in self.productos_mercadona.keys():
-            self.productos_mercadona[atributo] = []
-
-    def scrap_todo(self):
-
-        for cate in self.listacategorias.keys():
-            self.scrap_subcat(cate)
-
-    def guardar_csv(self):
-        
-        dfmerca = pd.DataFrame(self.productos_mercadona)
-        dfmerca.to_csv(f"../data/merca_{today}.csv")
-
-    def proceso_completo(self):
-
-        self.scrap_todo()
-        self.guardar_csv()
-        self.limpiar_diccionario()
-        print (f"Se han screapeado todos los datos de Mercadona del dia {today}, un saludo LOBO")
-"""

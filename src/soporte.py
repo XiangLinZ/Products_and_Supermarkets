@@ -7,14 +7,22 @@ sys.path.append("../")
 import src.soporte as sp
 
 def dia_subcat2(categoria):
+    """ A function to extract the data from a category
+
+    Args:
+        categoria (str): a full string of the category
+
+    Returns:
+        str: a clear string that match the real category
+    """
     frag = categoria.split("_")
     return frag[0]
 
 def dia_subcat(categoria):
-    """Depurador de subcategorias DIA
+    """ Extract and filter the category of a product
 
     Args:
-        categoria (string): Categorias en strings
+        categoria (string): Category en strings
 
     Returns:
         string: Subcategoria
@@ -65,13 +73,13 @@ def dia_subcat(categoria):
         "desconocido"
         
 def mer_subcat(categoria):
-    """Depurador de categorias MERCADONA
+    """ Filter mercadona's productos to match their real subcategory
 
     Args:
-        categoria (string): Categoria en string
+        categoria (string): Category into string
 
     Returns:
-        string: Subcategoria
+        string: Subcategory
     """
     frag0 = categoria.lower().split("_")
     frag = [ x.strip(",") for x in frag0]
@@ -99,33 +107,41 @@ def mer_subcat(categoria):
                 return k
 
 def category(categoria):
-    """Generador de categorias a partir de subcategorias
+    """Generate the catagory from the subcategory
 
     Args:
-        categoria (string): Subcategorias ya limpias
+        categoria (string): Subcategory
 
     Returns:
-        string: Categoria mayor que engloba las subcategorias
+        string: Category that belongs the subcategory
     """
     for k, v in bb.diccategoria.items():
         if categoria in v:
             return k
 
 def sleep_(n1 = 4, n2 = 8, n3 = 2):
-    """Generador de números aleatorios, adecuados para sleeps para scrapear
+    """ Random number generaton
 
     Args:
-        n1 (int, optional): el número mínimo que puede devolver. Defaults to 4.
-        n2 (int, optional): el número máximo que puede devolver. Defaults to 8.
-        n3 (int, optional): el número de decimales que devuelve. Defaults to 2.
+        n1 (int, optional): Min number. Defaults to 4.
+        n2 (int, optional): Max number. Defaults to 8.
+        n3 (int, optional): Number of decimals. Defaults to 2.
 
     Returns:
-        int: int aleatorio entre el primer número y el segundo con el tercer número de decimales
+        float: Random float
     """
     return round(np.random.randint(n1,n2) + np.random.rand(1)[0], n3)
 
 def limpiar_reference(col1, col2):
+    """Ajust prices reference
 
+    Args:
+        col1 (float): price of the product
+        col2 (str): Old reference unit that you want to standarice
+
+    Returns:
+        _type_: _description_
+    """
     if col2 == "docena":
         return round((col1 / 12), 2)
     if col2 == "100ml":
@@ -138,7 +154,14 @@ def limpiar_reference(col1, col2):
         return col1
 
 def limpiar_runit(col2):
+    """Ajust unit reference
 
+    Args:
+        col2 (str): old reference unit
+
+    Returns:
+        str: new reference unit
+    """
     if col2 == "docena":
         return "ud"
     if col2 == "100ml":
@@ -149,7 +172,14 @@ def limpiar_runit(col2):
         return col2
 
 def refinar_aceite(col1):
+    """filter all a catagory
 
+    Args:
+        col1 (str): Category of a product
+
+    Returns:
+        str: new category of the product
+    """
     generos_posibles = ["aceites", "sal", "vinagre", "aliños"]
     ratio_mayor = 0
     if col1 == "raro":
@@ -169,3 +199,18 @@ def refinar_aceite(col1):
     else:
         return col1
     
+def revisar_errores(col1, col2, errores):
+    """Seach products trying to find errors
+
+    Args:
+        col1 (int): number of the category
+        col2 (int): number of items of that category
+        errores (set): add errotos into that set
+    """
+    if col2 < 5:
+        if col1 in [235, 782]:
+            pass
+        else:
+            errores.add(col1)
+    else:
+        pass
