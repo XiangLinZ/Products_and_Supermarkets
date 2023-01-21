@@ -73,19 +73,20 @@ def mer_subcat(categoria):
     Returns:
         string: Subcategoria
     """
-    frag = categoria.split("_")
-    dic_merc1 = {"congelados": bb.mer_con, "charcuteria": bb.mer_charc}
-    dic_merc2 = {"cuidado": bb.mer_cui, "huevos": bb.mer_hue, "azucar": bb.mer_azuc, "bodega": bb.mer_bod, "fruta": bb.mer_frut,
-                 "limpieza": bb.mer_lim, "cereales": bb.mer_cer, "arroz": bb.mer_arr, "bebe": bb.mer_bebe, "conservas": bb.mer_cons,
-                 "mascotas": bb.mer_masc, "carne": bb.mer_car, "marisco": bb.mer_mari, "aceite": bb.mer_acei, "agua": bb.mer_agua,
+    frag0 = categoria.lower().split("_")
+    frag = [ x.strip(",") for x in frag0]
+    dic_merc1 = {"congelados": bb.mer_con, "charcuteria": bb.mer_charc, "charcutería": bb.mer_charc}
+    dic_merc2 = {"cuidado": bb.mer_cui, "huevos": bb.mer_hue, "azucar": bb.mer_azuc, "azúcar": bb.mer_azuc, "azúcar,": bb.mer_azuc,"bodega": bb.mer_bod,
+                 "fruta": bb.mer_frut, "limpieza": bb.mer_lim, "cereales": bb.mer_cer, "arroz": bb.mer_arr, "bebe": bb.mer_bebe, "conservas": bb.mer_cons,
+                 "mascotas": bb.mer_masc, "carne": bb.mer_car, "marisco": bb.mer_mari, "aceite": bb.mer_acei, "agua": bb.mer_agua, "bebé": bb.mer_bebe,
                  "cacao": bb.mer_cac, "postres": bb.mer_post}
     if frag[0] in bb.mer_cuid:
         return bb.mer_cuid[frag[0]]
-    elif frag[0] in ["congelados", "charcuteria"]:
+    elif frag[0] in ["congelados", "charcuteria", "charcutería"]:
         for k, v in dic_merc1[frag[0]].items():
             if frag[-1] in v:
                 return k
-    elif frag[0] == "panaderia":
+    elif frag[0] in ["panaderia", "panadería"]:
         if frag[-1] == "horno":
             return frag[-3]
         else:
