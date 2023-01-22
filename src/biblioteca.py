@@ -35,9 +35,9 @@ dia_bebis = {
     "sangrias" : ["vinos", "vino"]}
 dia_bode = {
     "destilados_licores" : ["whiskey", "ron", "vermouth", "ginebra", "vodka", "dulce", "espumosos", "whisky", "brandy", "cremas", "hierbas", "anis", "licores", "alcohol", "pacharan"],
-    "vino_tinto": ["tinto"],
-    "vino_blanco": ["blanco"],
-    "vino_rosado": ["rosado"],
+    "vinos_tintos": ["tinto"],
+    "vinos_blancos": ["blanco"],
+    "vinos_rosados": ["rosado"],
     "sangrias": ["verano"]}
 dia_be = {
     "higiene": ["toallitas", "puericultura", "champu", "infantil", "lociones", "jabon", "bebe"],
@@ -138,7 +138,7 @@ diccategoria = {
     "despensa": ["ketchup", "conservas", "harinas", "pastas", "especias", "salsas", "mayonesa", "mostaza", "aceites", "reposteria", "edulcorantes", "legumbres", "arroz", "vinagre","raro"],
     "pan": ["pan_tostado", "molde", "pan", "rallado", "perritos"],
     "snacks" : ["golosinas", "bombones", "aperitivos", "chocolate", "dulces"],
-    "huevos_lacteos_derivados": ["leche", "yogures", "postres", "huevos", "mantequilla", "queso", "batidos"],
+    "huevos_lacteos_derivados": ["leche", "yogures", "postres", "huevos", "mantequilla", "quesos", "batidos"],
     "internacional": ["mejicana", "oriental", "otras"],
     "congelados": ["precocinados_cong", "pescaderia_cong", "carnes_cong", "vegetales_cong", "hielo", "helados"],
     "carniceria": ["embutidos", "aves", "vacuno", "cerdo", "picados", "elaborados", "conejo_cordero"],
@@ -157,7 +157,7 @@ mer_con = {
     "hielo": ["hielo"],
     "carnes_cong" : ["carne"]}
 mer_charc = {
-    "queso" : ["fresco", "curado", "tierno", "porciones"],
+    "quesos" : ["fresco", "curado", "tierno", "porciones"],
     "embutidos": ["cocido", "serrano", "sobrasada", "salchichas", "mortadela"]}
 mer_pan = {
     "pan": ["horno"],
@@ -259,11 +259,11 @@ diccategoria = {
     "precocinados": ["precocinados"],
     "alcoholicas": ["vinos_tintos", "destilados_licores", "cervezas", "vinos_blancos", "vinos_rosados", "sangrias"],
     "mascotas": ["otros", "gatos", "perros", "accesorios"],
-    "desayunos" : ["cereales", "galletas", "bolleria", "cafe", "cacao", "infusiones"],
+    "desayunos" : ["cereales", "galletas", "bolleria", "cafe", "cacao", "infusiones", "bollería"],
     "despensa" : ["ketchup", "conservas", "harinas", "pastas", "especias", "salsas", "mayonesa", "mostaza", "aceites", "reposteria", "edulcorantes", "legumbres", "arroz", "vinagre","raro"],
     "pan" : ["pan_tostado", "molde", "pan", "rallado", "perritos"],
     "snacks" : ["golosinas", "bombones", "aperitivos", "chocolate", "dulces"],
-    "huevos_lacteos_derivados": ["leche", "yogures", "postres", "huevos", "mantequilla", "queso", "batidos"],
+    "huevos_lacteos_derivados": ["leche", "yogures", "postres", "huevos", "mantequilla", "batidos", "quesos"],
     "internacional": ["mejicana", "oriental", "otras"],
     "congelados": ["precocinados_cong", "pescaderia_cong", "carnes_cong", "vegetales_cong", "hielo", "helados"],
     "carniceria": ["embutidos", "aves", "vacuno", "cerdo", "picados", "elaborados", "conejo_cordero"],
