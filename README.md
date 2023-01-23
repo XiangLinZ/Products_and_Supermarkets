@@ -29,7 +29,7 @@ didn't though that i had to translate everything to English, so if there is some
 - The section where you gonna find more variety it's personal care and hygiene, another important section are eggs and milk derivations followed by pantry products, drinks and alcoholic driks are also important.
 ![mercadona_distribution](images/distribucion_productos_mercadona.png)
 - Another interesting fact it's that all the basic products has increase their average price.
-- For more in deep analysis click [here](analysis/analysis_of_figures.txt).
+- For more in deep analysis click [here](https://github.com/XiangLinZ/Proyecto_1_ETL/blob/main/analysis/analysis_figures.md).
 ---
 # Tools
 I had to use a variety of tools in this project for diverse pourposes they are listed here, with a small description of them.
