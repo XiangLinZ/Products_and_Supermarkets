@@ -47,3 +47,4 @@ I had to use a variety of tools in this project for diverse pourposes they are l
 - [Plotly](https://plotly.com/): Dash Enterprise is the premier platform for
 building, scaling, and deploying data apps in Python.
 - [Squarify](https://github.com/laserson/squarify): Pure Python implementation of the squarify treemap layout algorithm.
+- [fuzzywuzzy](https://pypi.org/project/fuzzywuzzy/): Fuzzy string matching like a boss. It uses Levenshtein Distance to calculate the differences between sequences in a simple-to-use package.
